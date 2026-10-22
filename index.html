@@ -35,11 +35,22 @@ i{font-style:normal;font-size:13px;font-weight:700;padding:2px 9px;border-radius
 .Keep{border-left-color:#2d6a3e}.Keep i{background:#e4f2e8;color:#245633}
 #prio{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
 #prio button{padding:6px 14px;border:1px solid var(--line);border-radius:99px;background:#fff;cursor:pointer}
-#prio button[aria-pressed=true],#nav button[aria-pressed=true]{background:var(--navy);color:#fff;border-color:var(--navy)}
-.grid{display:grid;grid-template-columns:230px 1fr;gap:28px;align-items:start}
-#nav{position:sticky;top:12px;display:grid;gap:4px}
-#nav button{display:flex;justify-content:space-between;gap:8px;text-align:left;padding:8px 12px;border:1px solid transparent;border-radius:6px;background:none;cursor:pointer;overflow-wrap:anywhere}
-#nav em{font-style:normal;font-size:13px;opacity:.7}
+#prio button[aria-pressed=true]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.grid{display:grid;grid-template-columns:260px 1fr;gap:28px;align-items:start}
+
+
+
+#nav{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto;padding-right:6px;scrollbar-width:thin}
+.pi{padding:0 4px 14px}.pi b{display:block;font-size:17px;color:var(--navy)}.pi span{font-size:13px;color:#617580}
+.pl{display:grid;gap:3px}
+#nav button{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;text-align:left;padding:10px 12px;border:0;border-radius:8px;background:none;color:var(--ink);cursor:pointer;overflow-wrap:anywhere}
+#nav button:hover{background:#e6edf7}
+#nav button.all{margin-bottom:8px;padding:13px 12px;border-radius:10px;font-weight:700}
+#nav button.gen{background:#e3ecf8}
+#nav button.d1{padding-left:28px;font-size:15px}#nav button.d2{padding-left:44px;font-size:15px}
+#nav em{font-style:normal;font-size:12px;min-width:28px;text-align:center;padding:1px 7px;border-radius:5px;background:#e4e9ef;color:#455a66}
+#nav button[aria-pressed=true]{background:var(--navy);color:#fff;box-shadow:inset 4px 0 0 var(--green)}
+#nav button[aria-pressed=true] em{background:#ffffff2e;color:#fff}
 section{margin-bottom:34px}
 section>header{background:var(--navy);color:#fff;border-radius:10px;padding:20px 24px;margin-bottom:14px}
 section>header h2{margin:0 0 6px;font-size:26px;overflow-wrap:anywhere}section>header p{margin:0 0 8px;color:#cdd9ee}section>header a{color:#fff}
@@ -55,7 +66,7 @@ figure img{width:100%;display:block;border-radius:3px}figure a{display:block;mar
 .rat{font-size:13px;color:#617580;margin-top:14px!important}
 dialog{border:0;border-radius:10px;padding:10px;max-width:min(96vw,1100px);max-height:94vh;overflow:auto}dialog::backdrop{background:#000a}dialog img{max-width:100%;display:block;margin-bottom:8px}
 @media(max-width:800px){.f{grid-template-columns:1fr}}
-@media(max-width:800px){.grid{grid-template-columns:1fr}#nav{position:static;grid-auto-flow:column;overflow-x:auto}.top,.hero,main{padding-inline:18px}}
+@media(max-width:800px){.grid{grid-template-columns:1fr}#nav{position:static;max-height:none}.pl{display:flex;overflow-x:auto}#nav button{width:auto;white-space:nowrap}#nav button.d1,#nav button.d2{padding-left:12px}.top,.hero,main{padding-inline:18px}}
 @media print{.top,.hero,#prio,#nav,#cards{display:none}body{background:#fff}}
 </style></head><body>
 <div class="top"><a class="brand" href="/"><img src="digital-encounter-logo.png" alt="Digital Encounter"><span>Site review</span></a>
@@ -82,6 +93,8 @@ const all=()=>S.pages.flatMap((p,i)=>p.findings.map(f=>({...f,pi:i})));
 const card=(f,p)=>{const k=String(f.shot||''),u=k&&p.urls&&(p.urls[k[0]]||[])[+k.slice(1)];
 return `<article class="f ${esc(f.label)}"><div><i>${esc(f.label)}</i><small>Priority ${esc(String(f.priority||'').toLowerCase())}</small><h3>${esc(f.title)}</h3>${[['What we observed',f.observed],['Why it matters',f.why],['What to change',f.change],['How to check it',f.verify]].filter(x=>x[1]).map(x=>`<h4>${x[0]}</h4><p>${esc(x[1])}</p>`).join('')}${f.rationale?`<p class="rat">Rationale: ${esc(f.rationale)}</p>`:''}</div>${u?`<figure><button data-shot="${esc(u)}"><img src="${esc(u)}" alt="Screenshot section for this finding" loading="lazy"></button><a href="${esc(u)}" data-shot="${esc(u)}">Enlarge screenshot ↗</a><figcaption>A section of the page as observed. The description identifies what to review.</figcaption></figure>`:''}</article>`};
 const rank=f=>{const i=PR.indexOf(f.priority);return i<0?9:i};
+const lab=p=>{if(p.general)return 'General review';const s=p.path.split('/').filter(Boolean);if(!s.length)return 'Home';let t=s[s.length-1];try{t=decodeURIComponent(t)}catch{}t=t.replace(/[-_]+/g,' ');return t[0].toUpperCase()+t.slice(1)};
+const dep=p=>p.general?0:Math.min(2,Math.max(0,p.path.split('/').filter(Boolean).length-1));
 function render(){
   const A=all();$('#report').hidden=false;
   $('#stats').innerHTML=`<span><b>${S.pages.filter(p=>!p.general).length}</b>pages</span><span><b>${S.pages.filter(p=>p.nshots).length*2}</b>desktop and mobile views</span><span><b>${S.pages.reduce((n,p)=>n+(p.nshots||0),0)}</b>screenshot sections inspected</span><span><b>${S.checked}</b>links checked</span><span><b>${A.length}</b>findings</span>`;
@@ -89,11 +102,12 @@ function render(){
   $('#top').innerHTML=top.length?top.map(f=>`<li><b>${esc(f.title)}</b><span>${esc(S.pages[f.pi].path)}</span></li>`).join(''):'<li>No blocking issues found in what could be read.</li>';
   $('#cards').innerHTML=Object.keys(LBL).map(k=>`<button class="card ${k}" data-l="${k}" aria-pressed="${S.label===k}"><i>${k}</i><b>${A.filter(f=>f.label===k).length}</b><span>${LBL[k]}</span></button>`).join('');
   $('#prio').innerHTML=['all',...PR].map(k=>`<button data-p="${k}" aria-pressed="${S.prio===k}">${k==='all'?'All priorities':k}</button>`).join('');
-  $('#nav').innerHTML=[{path:'All pages',n:A.length,i:'all'},...S.pages.map((p,i)=>({path:p.path,n:p.findings.length,i}))].map(x=>`<button data-i="${x.i}" aria-pressed="${String(S.page)===String(x.i)}">${esc(x.path)}<em>${x.n}</em></button>`).join('');
+  const real=S.pages.filter(p=>!p.general).length;
+  $('#nav').innerHTML=`<div class="pi"><b>Page index</b><span>${S.pages.some(p=>p.general)?real+' + general review':real+' pages'}</span></div><div class="pl">`+[{t:'All pages',n:A.length,i:'all',c:'all'},...S.pages.map((p,i)=>({t:lab(p),n:p.findings.length,i,c:p.general?'gen':'d'+dep(p)}))].map(x=>`<button class="${x.c}" data-i="${x.i}" aria-pressed="${String(S.page)===String(x.i)}"><span>${esc(x.t)}</span><em>${x.n}</em></button>`).join('')+'</div>';
   $('#main').innerHTML=S.pages.map((p,i)=>({p,i})).filter(x=>S.page==='all'||S.page===x.i).map(({p,i})=>{
     const fs=p.findings.filter(f=>(S.label==='all'||f.label===S.label)&&(S.prio==='all'||f.priority===S.prio)).sort((a,b)=>rank(a)-rank(b));
     const sub=[p.capErr,p.err?'AI review failed: '+p.err:'',p.summary,p.pending&&!p.summary&&!p.err?'Reviewing this page…':''].filter(Boolean).join(' ');
-    return `<section><header><h2>${esc(p.path)}</h2><p>${esc(sub)}</p><a href="${esc(p.url)}" target="_blank" rel="noopener">Open original page</a></header>${fs.map(f=>card(f,p)).join('')||'<p class="none">Nothing matches these filters.</p>'}</section>`}).join('');
+    return `<section><header><h2>${esc(lab(p))}</h2><p>${esc(sub)}</p><a href="${esc(p.url)}" target="_blank" rel="noopener">Open original page</a></header>${fs.map(f=>card(f,p)).join('')||'<p class="none">Nothing matches these filters.</p>'}</section>`}).join('');
 }
 $('#report').addEventListener('click',e=>{
   const sh=e.target.closest('[data-shot]');if(sh){e.preventDefault();$('#dlg img').src=sh.dataset.shot;$('#dlg').showModal();return}
