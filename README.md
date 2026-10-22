@@ -1,9 +1,9 @@
-# Site review tool
+# Digital Encounter Site Review
 
 Paste a link, get a review with Fix / Improve / Validate / Keep labels and priorities.
 
 ## Deploy (GitHub + Vercel)
-1. Push this folder to a GitHub repo (index.html, api/, vercel.json and package.json at the repo root).
+1. Push this folder to a GitHub repo named digital-encounter-site-review (index.html, api/, vercel.json, package.json and the Digital Encounter logo files at the repo root).
 2. On vercel.com: Add New > Project > import the repo. Framework preset: Other. No build command.
 3. Before or after the first deploy, open Settings > Environment Variables and add:
    - ANTHROPIC_API_KEY = your key from console.anthropic.com (required)
