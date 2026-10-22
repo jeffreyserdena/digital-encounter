@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Digital Encounter | Site review</title>
+<link rel="icon" type="image/png" href="digital-encounter-favicon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+:root{--navy:#12305f;--teal:#214f98;--green:#3fb868;--paper:#f2f5f9;--ink:#1b2a33;--line:#d5dde2;--gold:#b88a2a}
+*{box-sizing:border-box}body{margin:0;font:16px/1.55 "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--ink);background:var(--paper)}
+button,input,select{font:inherit}a{color:var(--teal)}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:14px 32px;background:#fff;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--navy);font-weight:700}.brand img{height:46px;width:auto;display:block}.brand span{font-size:15px;color:#52666f;border-left:1px solid var(--line);padding-left:14px}
+.top select{padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:#fff}
+.hero{background:var(--navy);color:#fff;padding:64px 32px 48px}
+.hero>*{max-width:860px;margin-inline:auto}
+h1{font-size:clamp(30px,5vw,52px);line-height:1.08;margin:0 0 14px;letter-spacing:-.02em}
+.hero p{margin:0 0 26px;color:#cdd9ee;max-width:60ch}
+#f{display:flex;gap:10px;flex-wrap:wrap}
+#u{flex:1 1 320px;padding:14px 16px;border:0;border-radius:8px;font-size:17px}
+#go{padding:14px 26px;border:0;border-radius:8px;background:var(--green);color:#07210f;font-weight:700;cursor:pointer}
+#go:disabled{opacity:.55;cursor:wait}
+#msg{min-height:1.5em;margin-top:14px;color:#cdd9ee}
+main{max-width:1180px;margin:0 auto;padding:32px}
+#stats{display:flex;gap:28px;flex-wrap:wrap;color:#455a66}#stats b{font-size:26px;color:var(--navy);margin-right:6px}
+.tp{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 22px;margin:20px 0}
+.tp h2{margin:0 0 8px;font-size:20px}.tp ol{margin:0;padding-left:20px}.tp li{margin:6px 0}.tp li span{color:#617580;margin-left:8px}
+#cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.card{text-align:left;background:#fff;border:1px solid var(--line);border-left-width:5px;border-radius:8px;padding:14px 16px;cursor:pointer;display:grid;gap:2px}
+.card b{font-size:30px;line-height:1.1}.card span{color:#52666f;font-size:14px}
+.card[aria-pressed=true]{box-shadow:0 0 0 2px var(--navy)}
+i{font-style:normal;font-size:13px;font-weight:700;padding:2px 9px;border-radius:5px;justify-self:start}
+.Fix{border-left-color:#a8323a}.Fix i{background:#fbeaea;color:#8c2229}
+.Improve{border-left-color:var(--teal)}.Improve i{background:#e6edf8;color:#173b78}
+.Validate{border-left-color:var(--gold)}.Validate i{background:#fbf1d9;color:#7a560b}
+.Keep{border-left-color:#2d6a3e}.Keep i{background:#e4f2e8;color:#245633}
+#prio{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+#prio button{padding:6px 14px;border:1px solid var(--line);border-radius:99px;background:#fff;cursor:pointer}
+#prio button[aria-pressed=true],#nav button[aria-pressed=true]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.grid{display:grid;grid-template-columns:230px 1fr;gap:28px;align-items:start}
+#nav{position:sticky;top:12px;display:grid;gap:4px}
+#nav button{display:flex;justify-content:space-between;gap:8px;text-align:left;padding:8px 12px;border:1px solid transparent;border-radius:6px;background:none;cursor:pointer;overflow-wrap:anywhere}
+#nav em{font-style:normal;font-size:13px;opacity:.7}
+section{margin-bottom:34px}
+section>header{background:var(--navy);color:#fff;border-radius:10px;padding:20px 24px;margin-bottom:14px}
+section>header h2{margin:0 0 6px;font-size:26px;overflow-wrap:anywhere}section>header p{margin:0 0 8px;color:#cdd9ee}section>header a{color:#fff}
+.f{background:#fff;border:1px solid var(--line);border-left-width:5px;border-radius:8px;padding:16px 22px;margin-bottom:12px}
+.f small{margin-left:10px;color:#617580}.f h3{margin:8px 0 4px;font-size:20px}
+.f h4{margin:12px 0 0;font-size:14px}.f p{margin:2px 0 0;max-width:72ch}
+.none{color:#617580}
+.lim{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);color:#455a66;font-size:15px;max-width:75ch}
+.f{display:grid;grid-template-columns:1fr 260px;gap:24px}
+figure{margin:0;align-self:start;font-size:13px;color:#617580}
+figure button{display:block;width:100%;border:1px solid var(--line);border-radius:6px;padding:3px;background:#fff;cursor:zoom-in}
+figure img{width:100%;display:block;border-radius:3px}figure a{display:block;margin-top:6px}
+.rat{font-size:13px;color:#617580;margin-top:14px!important}
+dialog{border:0;border-radius:10px;padding:10px;max-width:min(96vw,1100px);max-height:94vh;overflow:auto}dialog::backdrop{background:#000a}dialog img{max-width:100%;display:block;margin-bottom:8px}
+@media(max-width:800px){.f{grid-template-columns:1fr}}
+@media(max-width:800px){.grid{grid-template-columns:1fr}#nav{position:static;grid-auto-flow:column;overflow-x:auto}.top,.hero,main{padding-inline:18px}}
+@media print{.top,.hero,#prio,#nav,#cards{display:none}body{background:#fff}}
+</style></head><body>
+<div class="top"><a class="brand" href="/"><img src="digital-encounter-logo.png" alt="Digital Encounter"><span>Site review</span></a>
+<label>Report language <select id="lang"><option value="en">English</option><option value="fil">Filipino</option><option value="es">Español</option></select></label></div>
+<div class="hero"><h1>Paste a link. Get a review before launch.</h1>
+<p>The tool opens the site in a real browser, takes desktop and mobile screenshots, checks the links, then reviews every page and sorts what it finds by type and priority.</p>
+<form id="f"><input id="u" type="text" inputmode="url" placeholder="example.com" aria-label="Website address" required><button id="go">Review this site</button></form>
+<div id="msg" role="status"></div></div>
+<main id="report" hidden>
+<div id="stats"></div>
+<div class="tp"><h2>Fix these first</h2><ol id="top"></ol></div>
+<div id="cards"></div><div id="prio"></div>
+<div class="grid"><nav id="nav" aria-label="Pages"></nav><div id="main"></div></div>
+<p class="lim"><b>Digital Encounter site review: scope and limits.</b> Each page is reviewed from screenshots at 1280 px (desktop) and 390 px (mobile) plus its text, and up to 25 internal links are checked. The tool does not log in, submit forms, test bookings or measure real loading speed, and it does not certify accessibility, security or legal compliance. Long pages are captured only up to the first five desktop and three mobile sections. Findings written by the AI are suggestions to check, not verdicts; items marked Validate need the owner’s confirmation.</p>
+<button onclick="print()">Print report</button>
+</main>
+<dialog id="dlg"><form method="dialog"><img alt="Enlarged screenshot"><button>Close</button></form></dialog>
+<script>
+const $=s=>document.querySelector(s),PR=['Critical','High','Medium','Low'];
+const LBL={Fix:'Observed issue',Improve:'Opportunity',Validate:'Needs checking',Keep:'Strength'};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let S={pages:[],label:'all',prio:'all',page:'all',checked:0};
+const all=()=>S.pages.flatMap((p,i)=>p.findings.map(f=>({...f,pi:i})));
+const card=(f,p)=>{const k=String(f.shot||''),u=k&&p.urls&&(p.urls[k[0]]||[])[+k.slice(1)];
+return `<article class="f ${esc(f.label)}"><div><i>${esc(f.label)}</i><small>Priority ${esc(String(f.priority||'').toLowerCase())}</small><h3>${esc(f.title)}</h3>${[['What we observed',f.observed],['Why it matters',f.why],['What to change',f.change],['How to check it',f.verify]].filter(x=>x[1]).map(x=>`<h4>${x[0]}</h4><p>${esc(x[1])}</p>`).join('')}${f.rationale?`<p class="rat">Rationale: ${esc(f.rationale)}</p>`:''}</div>${u?`<figure><button data-shot="${esc(u)}"><img src="${esc(u)}" alt="Screenshot section for this finding" loading="lazy"></button><a href="${esc(u)}" data-shot="${esc(u)}">Enlarge screenshot ↗</a><figcaption>A section of the page as observed. The description identifies what to review.</figcaption></figure>`:''}</article>`};
+const rank=f=>{const i=PR.indexOf(f.priority);return i<0?9:i};
+function render(){
+  const A=all();$('#report').hidden=false;
+  $('#stats').innerHTML=`<span><b>${S.pages.filter(p=>!p.general).length}</b>pages</span><span><b>${S.pages.filter(p=>p.nshots).length*2}</b>desktop and mobile views</span><span><b>${S.pages.reduce((n,p)=>n+(p.nshots||0),0)}</b>screenshot sections inspected</span><span><b>${S.checked}</b>links checked</span><span><b>${A.length}</b>findings</span>`;
+  const top=A.filter(f=>f.label==='Fix').sort((a,b)=>rank(a)-rank(b)).slice(0,3);
+  $('#top').innerHTML=top.length?top.map(f=>`<li><b>${esc(f.title)}</b><span>${esc(S.pages[f.pi].path)}</span></li>`).join(''):'<li>No blocking issues found in what could be read.</li>';
+  $('#cards').innerHTML=Object.keys(LBL).map(k=>`<button class="card ${k}" data-l="${k}" aria-pressed="${S.label===k}"><i>${k}</i><b>${A.filter(f=>f.label===k).length}</b><span>${LBL[k]}</span></button>`).join('');
+  $('#prio').innerHTML=['all',...PR].map(k=>`<button data-p="${k}" aria-pressed="${S.prio===k}">${k==='all'?'All priorities':k}</button>`).join('');
+  $('#nav').innerHTML=[{path:'All pages',n:A.length,i:'all'},...S.pages.map((p,i)=>({path:p.path,n:p.findings.length,i}))].map(x=>`<button data-i="${x.i}" aria-pressed="${String(S.page)===String(x.i)}">${esc(x.path)}<em>${x.n}</em></button>`).join('');
+  $('#main').innerHTML=S.pages.map((p,i)=>({p,i})).filter(x=>S.page==='all'||S.page===x.i).map(({p,i})=>{
+    const fs=p.findings.filter(f=>(S.label==='all'||f.label===S.label)&&(S.prio==='all'||f.priority===S.prio)).sort((a,b)=>rank(a)-rank(b));
+    const sub=[p.capErr,p.err?'AI review failed: '+p.err:'',p.summary,p.pending&&!p.summary&&!p.err?'Reviewing this page…':''].filter(Boolean).join(' ');
+    return `<section><header><h2>${esc(p.path)}</h2><p>${esc(sub)}</p><a href="${esc(p.url)}" target="_blank" rel="noopener">Open original page</a></header>${fs.map(f=>card(f,p)).join('')||'<p class="none">Nothing matches these filters.</p>'}</section>`}).join('');
+}
+$('#report').addEventListener('click',e=>{
+  const sh=e.target.closest('[data-shot]');if(sh){e.preventDefault();$('#dlg img').src=sh.dataset.shot;$('#dlg').showModal();return}
+  const b=e.target.closest('button[data-l],button[data-p],button[data-i]');if(!b)return;
+  if(b.dataset.l)S.label=S.label===b.dataset.l?'all':b.dataset.l;
+  if(b.dataset.p)S.prio=b.dataset.p;
+  if(b.dataset.i)S.page=b.dataset.i==='all'?'all':+b.dataset.i;
+  render();
+});
+const toUrl=b=>{const s=atob(b),u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return URL.createObjectURL(new Blob([u],{type:'image/jpeg'}))};
+async function post(path,body){const r=await fetch('/api/'+path,{method:'POST',body:JSON.stringify(body)});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||'Request failed ('+r.status+')');return d}
+async function pool(items,n,fn){const q=[...items];await Promise.all(Array.from({length:n},async()=>{while(q.length)await fn(q.shift())}))}
+$('#f').onsubmit=async e=>{
+  e.preventDefault();$('#go').disabled=true;$('#report').hidden=true;
+  $('#msg').textContent='Reading the site and checking links…';
+  try{
+    const d=await post('crawl',{url:$('#u').value});
+    S={pages:d.pages.map(p=>({...p,findings:[...p.issues],pending:!!p.facts.text})),label:'all',prio:'all',page:'all',checked:d.checked};
+    render();$('#msg').textContent='Basic checks done. Taking screenshots and reviewing each page; this can take a few minutes…';
+    await pool(S.pages.filter(p=>p.pending),3,async p=>{
+      let c={desktop:[],mobile:[],issues:[]};
+      try{
+        $('#msg').textContent='Capturing screenshots of '+p.path+'…';
+        c=await post('capture',{url:p.url});
+        p.urls={D:c.desktop.map(toUrl),M:c.mobile.map(toUrl)};p.nshots=c.desktop.length+c.mobile.length;
+        p.findings.push(...c.issues.filter(i=>!i.shared));
+        const sh=c.issues.filter(i=>i.shared);
+        if(sh.length&&!S.pages.some(q=>q.general)){S.pages.unshift({general:true,path:'General review',url:p.url,urls:p.urls,findings:sh,summary:'Navigation and footer: elements shared across the whole website.'});S.page='all'}
+        render();
+      }catch(err){p.capErr='Screenshots unavailable: '+err.message}
+      try{
+        $('#msg').textContent='Reviewing '+p.path+'…';
+        const x=await post('analyze',{lang:$('#lang').value,desktop:c.desktop,mobile:c.mobile,page:{url:p.url,path:p.path,...p.facts,links:p.facts.linkTexts,auto:p.findings.map(i=>i.title)}});
+        p.summary=x.summary||'';p.findings.push(...(x.findings||[]));
+      }catch(err){p.err=err.message}
+      p.pending=false;render();
+    });
+    $('#msg').textContent='Done. Check the scope and limits at the bottom of the report.';
+  }catch(err){$('#msg').textContent=err.message}
+  $('#go').disabled=false;
+};
+</script></body></html>

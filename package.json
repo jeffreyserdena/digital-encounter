@@ -1,0 +1,8 @@
+{
+  "name": "digital-encounter-site-review",
+  "private": true,
+  "dependencies": {
+    "@sparticuz/chromium": "latest",
+    "puppeteer-core": "latest"
+  }
+}
