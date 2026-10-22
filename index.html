@@ -92,7 +92,7 @@ function render(){
   $('#nav').innerHTML=[{path:'All pages',n:A.length,i:'all'},...S.pages.map((p,i)=>({path:p.path,n:p.findings.length,i}))].map(x=>`<button data-i="${x.i}" aria-pressed="${String(S.page)===String(x.i)}">${esc(x.path)}<em>${x.n}</em></button>`).join('');
   $('#main').innerHTML=S.pages.map((p,i)=>({p,i})).filter(x=>S.page==='all'||S.page===x.i).map(({p,i})=>{
     const fs=p.findings.filter(f=>(S.label==='all'||f.label===S.label)&&(S.prio==='all'||f.priority===S.prio)).sort((a,b)=>rank(a)-rank(b));
-    const sub=p.summary||(p.err?'AI review failed: '+p.err:p.pending?'Reviewing this page…':'');
+    const sub=[p.capErr,p.err?'AI review failed: '+p.err:'',p.summary,p.pending&&!p.summary&&!p.err?'Reviewing this page…':''].filter(Boolean).join(' ');
     return `<section><header><h2>${esc(p.path)}</h2><p>${esc(sub)}</p><a href="${esc(p.url)}" target="_blank" rel="noopener">Open original page</a></header>${fs.map(f=>card(f,p)).join('')||'<p class="none">Nothing matches these filters.</p>'}</section>`}).join('');
 }
 $('#report').addEventListener('click',e=>{
@@ -127,7 +127,7 @@ $('#f').onsubmit=async e=>{
       try{
         $('#msg').textContent='Reviewing '+p.path+'…';
         const x=await post('analyze',{lang:$('#lang').value,desktop:c.desktop,mobile:c.mobile,page:{url:p.url,path:p.path,...p.facts,links:p.facts.linkTexts,auto:p.findings.map(i=>i.title)}});
-        p.summary=(p.capErr?p.capErr+'. ':'')+(x.summary||'');p.findings.push(...(x.findings||[]));
+        p.summary=x.summary||'';p.findings.push(...(x.findings||[]));
       }catch(err){p.err=err.message}
       p.pending=false;render();
     });

@@ -66,7 +66,7 @@ module.exports = async (req, res) => {
     const home = await get(u);
     if (!home.status) return out(502, { error: 'Could not reach the site (' + (home.err || 'no response') + ').' });
     const origin = new URL(home.url).origin, hf = parse(home.body);
-    const clean = (href, base) => { try { const x = new URL(href, base); x.hash = ''; x.search = ''; return x.origin === origin && !/\.(pdf|jpe?g|png|webp|gif|svg|zip|mp4|css|js)$/i.test(x.pathname) ? x.href.replace(/\/$/, '') : null; } catch { return null; } };
+    const clean = (href, base) => { try { const x = new URL(href, base); x.hash = ''; x.search = ''; return x.origin === origin && !/\.(pdf|jpe?g|png|webp|gif|svg|zip|mp4|css|js)$/i.test(x.pathname) && !/^\/cdn-cgi\//.test(x.pathname) ? x.href.replace(/\/$/, '') : null; } catch { return null; } };
     const homeKey = home.url.replace(/\/$/, '');
     const urls = [...new Set(hf.links.map(l => l.href && !/^(#|javascript|mailto|tel)/i.test(l.href) ? clean(l.href, home.url) : null).filter(Boolean))].filter(x => x !== homeKey);
     const rest = await Promise.all(urls.slice(0, 5).map(x => get(x)));
